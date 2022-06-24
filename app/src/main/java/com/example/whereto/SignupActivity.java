@@ -71,10 +71,9 @@ public class SignupActivity extends AppCompatActivity {
                 if (e != null) {
                     Toast.makeText(SignupActivity.this, "Invalid info!", Toast.LENGTH_SHORT).show();
                     return;
-                } else {
-                    goMainActivity();
-                    Toast.makeText(SignupActivity.this, "Success!", Toast.LENGTH_SHORT).show();
                 }
+                goMainActivity();
+                Toast.makeText(SignupActivity.this, "Success!", Toast.LENGTH_SHORT).show();
             }
         });
     }

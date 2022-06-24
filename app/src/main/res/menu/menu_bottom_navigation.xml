@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/action_home"
+        android:icon="@mipmap/home"
+        android:title="Home"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_plan_trip"
+        android:icon="@mipmap/airplane"
+        android:title="Plan"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_map"
+        android:icon="@mipmap/map"
+        android:title="Map"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_rating"
+        android:icon="@mipmap/ratings"
+        android:title="Ratings"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_notifications"
+        android:icon="@mipmap/notification"
+        android:title="Notifications"
+        app:showAsAction="always" />
+</menu>
