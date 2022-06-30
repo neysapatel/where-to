@@ -25,18 +25,32 @@ public class HomeFragment extends Fragment {
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(final View view, final Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        getYelpData();
+    }
 
-        Retrofit retrofit = new Retrofit.Builder().baseUrl(Constants.BASE_URL).addConverterFactory(GsonConverterFactory.create()).build();
-        YelpService yelpService = retrofit.create(YelpService.class);
+    @Override
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
+                             final Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_home, container, false);
+    }
+
+    public void getYelpData() {
+        final Retrofit retrofit = new Retrofit.Builder().baseUrl(Constants.BASE_URL).addConverterFactory(GsonConverterFactory.create()).build();
+        final YelpService yelpService = retrofit.create(YelpService.class);
 
         String searchTerm = "Avocado Toast"; // TODO: replace with user input
         String searchCategory = "Concert"; // TODO: replace with user input
         String location = "San Francisco"; // TODO: replace with user input
 
-        Call<YelpFusion> restaturantCall = yelpService.searchRestaurants("Bearer "+ Constants.API_KEY, searchTerm, location);
-        restaturantCall.enqueue(new Callback<YelpFusion>() {
+        getRestaurantResults(yelpService, searchTerm, location);
+        getEventsResults(yelpService, searchCategory, location);
+    }
+
+    public void getRestaurantResults(final YelpService yelpService, final String searchTerm, final String location) {
+        Call<YelpFusion> restaurantCall = yelpService.searchRestaurants("Bearer "+ Constants.API_KEY, searchTerm, location);
+        restaurantCall.enqueue(new Callback<YelpFusion>() {
             @Override
             public void onResponse(Call<YelpFusion> call, Response<YelpFusion> response) {
                 // TODO: store and return response based on the user's preferences
@@ -47,7 +61,9 @@ public class HomeFragment extends Fragment {
                 t.printStackTrace();
             }
         });
+    }
 
+    public void getEventsResults(final YelpService yelpService, final String searchCategory, final String location) {
         Call<YelpFusion> eventsCall = yelpService.searchEvents("Bearer "+ Constants.API_KEY, searchCategory, location);
         eventsCall.enqueue(new Callback<YelpFusion>() {
             @Override
@@ -60,11 +76,5 @@ public class HomeFragment extends Fragment {
                 t.printStackTrace();
             }
         });
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_home, container, false);
     }
 }

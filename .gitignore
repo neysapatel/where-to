@@ -8,6 +8,7 @@
 /.idea/navEditor.xml
 /.idea/assetWizardSettings.xml
 /app/src/main/java/com/example/whereto/ParseApplication.java
+/app/src/main/java/com/example/whereto/Constants.java
 .DS_Store
 /build
 /captures
