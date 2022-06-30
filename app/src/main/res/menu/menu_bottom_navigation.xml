@@ -9,7 +9,7 @@
         app:showAsAction="always" />
     <item
         android:id="@+id/action_plan_trip"
-        android:icon="@mipmap/airplane"
+        android:icon="@mipmap/plan"
         android:title="Plan"
         app:showAsAction="always" />
     <item
