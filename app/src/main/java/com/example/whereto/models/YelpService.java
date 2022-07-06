@@ -34,43 +34,4 @@ import retrofit2.Response;
     public void setProperties(Properties properties) {
         this.properties = properties;
     }
-
-    public void getSearchResults() {
-        String searchTerm = "Avocado Toast"; // TODO: replace with user input
-        String searchCategory = "Concert"; // TODO: replace with user input
-        String location = "San Francisco"; // TODO: replace with user input
-
-        getRestaurantResults(searchTerm, location);
-        getEventsResults(searchCategory, location);
-    }
-
-    public void getRestaurantResults(final String searchTerm, final String location) {
-        Call<YelpService> restaurantCall = searchRestaurants("Bearer "+ Constants.API_KEY, searchTerm, location);
-        restaurantCall.enqueue(new Callback<YelpService>() {
-            @Override
-            public void onResponse(Call<YelpService> call, Response<YelpService> response) {
-                // TODO: store and return response based on the user's preferences
-            }
-
-            @Override
-            public void onFailure(Call<YelpService> call, Throwable t) {
-                t.printStackTrace();
-            }
-        });
-    }
-
-    public void getEventsResults(final String searchCategory, final String location) {
-        Call<YelpService> eventsCall = searchEvents("Bearer "+ Constants.API_KEY, searchCategory, location);
-        eventsCall.enqueue(new Callback<YelpService>() {
-            @Override
-            public void onResponse(Call<YelpService> eventsCall, Response<YelpService> response) {
-                // TODO: store and return response based on the user's preferences
-            }
-
-            @Override
-            public void onFailure(Call<YelpService> eventsCall, Throwable t) {
-                t.printStackTrace();
-            }
-        });
-    }
 }
