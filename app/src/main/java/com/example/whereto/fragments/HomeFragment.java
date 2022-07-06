@@ -1,6 +1,7 @@
 package com.example.whereto.fragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,7 +57,7 @@ public class HomeFragment extends Fragment {
     }
 
     public void getRestaurantResults(final YelpServiceInterface yelpServiceInterface, final String searchTerm, final String location) {
-        Call<YelpService> restaurantCall = yelpServiceInterface.searchRestaurants("Bearer "+ Constants.API_KEY, searchTerm, location);
+        Call<YelpService> restaurantCall = yelpServiceInterface.searchRestaurants("Bearer " + Constants.API_KEY, searchTerm, location);
         restaurantCall.enqueue(new Callback<YelpService>() {
             @Override
             public void onResponse(Call<YelpService> call, Response<YelpService> response) {
@@ -71,11 +72,12 @@ public class HomeFragment extends Fragment {
     }
 
     public void getEventsResults(final YelpServiceInterface yelpServiceInterface, final String searchCategory, final String location) {
-        Call<YelpService> eventsCall = yelpServiceInterface.searchEvents("Bearer "+ Constants.API_KEY, searchCategory, location);
+        Call<YelpService> eventsCall = yelpServiceInterface.searchEvents("Bearer " + Constants.API_KEY, searchCategory, location);
         eventsCall.enqueue(new Callback<YelpService>() {
             @Override
             public void onResponse(Call<YelpService> eventsCall, Response<YelpService> response) {
                 // TODO: store and return response based on the user's preferences
+                Log.i("yelpp", "" + response.code());
             }
 
             @Override

@@ -10,7 +10,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
- public abstract class YelpService implements YelpServiceInterface{
+ public class YelpService implements YelpServiceInterface{
 
     @SerializedName("type")
     @Expose
@@ -34,4 +34,14 @@ import retrofit2.Response;
     public void setProperties(Properties properties) {
         this.properties = properties;
     }
-}
+
+     @Override
+     public Call<YelpService> searchRestaurants(String authHeader, String searchTerm, String location) {
+         return null;
+     }
+
+     @Override
+     public Call<YelpService> searchEvents(String authHeader, String searchTerm, String location) {
+         return null;
+     }
+ }
