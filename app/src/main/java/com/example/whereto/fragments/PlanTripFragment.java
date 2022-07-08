@@ -31,16 +31,24 @@ import java.util.Currency;
 public class PlanTripFragment extends Fragment {
     private SwipeDeck cardStack;
     private ArrayList<Question> questionList;
-    private ArrayList<Question> avoidedPrompts;
-    private ArrayList<Question> likedPrompts;
     EditText startDate;
     EditText endDate;
     DatePickerDialog datePickerDialog;
-    float budget = 0;
-    float radius = 0;
 
-    public PlanTripFragment() {
-    }
+    public float budget = 0;
+    public float radius = 0;
+    public String tripStart;
+    public String tripEnd;
+    public boolean food = false;
+    public boolean hotels = false;
+    public boolean tours = false;
+    public boolean athletic = false;
+    public boolean arts = false;
+    public boolean shopping = false;
+    public boolean nightlife = false;
+    public boolean beauty = false;
+
+    public PlanTripFragment() {}
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -50,6 +58,16 @@ public class PlanTripFragment extends Fragment {
         getTripStartDate();
         getTripEndDate();
         getBudget();
+
+        Button planTripButton;
+        planTripButton = view.findViewById(R.id.planButton);
+
+        planTripButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                planTrip();
+            }
+        });
     }
 
     @Override
@@ -77,13 +95,38 @@ public class PlanTripFragment extends Fragment {
 
         cardStack.setEventCallback(new SwipeDeck.SwipeEventCallback() {
             @Override
-            public void cardSwipedLeft(int position) {
-                avoidedPrompts.add(questionList.get(position));
-            }
+            public void cardSwipedLeft(int position) {}
 
             @Override
             public void cardSwipedRight(int position) {
-                likedPrompts.add(questionList.get(position));
+                String prompt = (questionList.get(position)).getPrompt();
+
+                switch (prompt) {
+                    case "food/restaurants":
+                        food = true;
+                        break;
+                    case "hotels":
+                        hotels = true;
+                        break;
+                    case "tours":
+                        tours = true;
+                        break;
+                    case "active/athletic activities":
+                        athletic = true;
+                        break;
+                    case "arts & entertainment":
+                        arts = true;
+                        break;
+                    case "outlet stores/shopping centres/souvenir shops":
+                        shopping = true;
+                        break;
+                    case "nightlife/bars":
+                        nightlife = true;
+                        break;
+                    default:
+                        beauty = true;
+                        break;
+                }
             }
 
             @Override
@@ -92,9 +135,7 @@ public class PlanTripFragment extends Fragment {
             }
 
             @Override
-            public void cardsDepleted() {
-                Toast.makeText(view.getContext(), "No more questions left", Toast.LENGTH_SHORT).show();
-            }
+            public void cardsDepleted() {}
 
             public void cardActionDown() {
                 Toast.makeText(view.getContext(), "Please do not swipe down", Toast.LENGTH_SHORT).show();
@@ -119,7 +160,8 @@ public class PlanTripFragment extends Fragment {
                 datePickerDialog = new DatePickerDialog(v.getContext(), new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        startDate.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
+                        tripStart = dayOfMonth + "/" + (monthOfYear + 1) + "/" + year;
+                        startDate.setText(tripStart);
                     }
                 }, mYear, mMonth, mDay);
                 datePickerDialog.show();
@@ -139,7 +181,8 @@ public class PlanTripFragment extends Fragment {
                 datePickerDialog = new DatePickerDialog(v.getContext(), new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        endDate.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
+                        tripEnd = dayOfMonth + "/" + (monthOfYear + 1) + "/" + year;
+                        endDate.setText(tripEnd);
                     }
                 }, mYear, mMonth, mDay);
                 datePickerDialog.show();
@@ -177,5 +220,9 @@ public class PlanTripFragment extends Fragment {
             }
         });
         return radius;
+    }
+
+    public void planTrip() {
+        // TODO: use tripStart, tripEnd, budget, radius, and preference booleans to plan trip
     }
 }
