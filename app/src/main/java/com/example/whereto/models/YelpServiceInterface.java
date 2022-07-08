@@ -13,8 +13,6 @@ public interface YelpServiceInterface {
         @GET("businesses/search")
         Call<YelpService> searchRestaurants(@Header("Authorization") String authHeader, @Query("term") String searchTerm, @Query("location") String location);
 
-        @GET("event/search")
-        Call<YelpService> searchEvents(@Header("Authorization") String authHeader, @Query("category") String searchTerm, @Query("location") String location);
-
-        void getSearchResults();
+        @GET("events")
+        Call<YelpService> searchEvents(@Header("Authorization") String authHeader, @Query("category") String searchCategory, @Query("location") String location);
 }

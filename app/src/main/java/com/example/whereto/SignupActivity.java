@@ -33,10 +33,10 @@ public class SignupActivity extends AppCompatActivity {
             goMainActivity();
         }
 
-        etUsername = findViewById(R.id.tbEmail);
+        etUsername = findViewById(R.id.tbDestination);
         etPass = findViewById(R.id.tbPassword);
         etname = findViewById(R.id.tbName);
-        etemail = findViewById(R.id.tbEmail);
+        etemail = findViewById(R.id.tbDestination);
         signupButton = findViewById(R.id.signupBtn);
         login = findViewById(R.id.login);
 

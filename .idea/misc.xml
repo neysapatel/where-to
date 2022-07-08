@@ -10,9 +10,10 @@
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_map.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_notifications.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/fragment_plan.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_plan.xml" value="0.20461095100864554" />
         <entry key="app/src/main/res/layout/fragment_post.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_ratings.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/question_rv.xml" value="0.7012050349537919" />
         <entry key="app/src/main/res/menu/menu_bottom_navigation.xml" value="0.32864583333333336" />
       </map>
     </option>
