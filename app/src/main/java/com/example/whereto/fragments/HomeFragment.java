@@ -77,7 +77,6 @@ public class HomeFragment extends Fragment {
             @Override
             public void onResponse(Call<YelpService> eventsCall, Response<YelpService> response) {
                 // TODO: store and return response based on the user's preferences
-                Log.i("yelpp", "" + response.code());
             }
 
             @Override

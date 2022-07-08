@@ -4,44 +4,33 @@ import com.example.whereto.Constants;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
 import java.util.Properties;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
- public class YelpService implements YelpServiceInterface{
+ public class YelpService {
 
-    @SerializedName("type")
-    @Expose
-    private String type;
-    @SerializedName("properties")
-    @Expose
-    private Properties properties;
+    @SerializedName("total")
+    private int total;
+    @SerializedName("businesses")
+    private List<YelpBusiness> businesses;
 
-    public String getType() {
-        return type;
+    public int getTotal() {
+        return total;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setTotal(int total) {
+        this.total = total;
     }
 
-    public Properties getProperties() {
-        return properties;
+    public List<YelpBusiness> getBusinesses() {
+        return businesses;
     }
 
-    public void setProperties(Properties properties) {
-        this.properties = properties;
+    public void setBusinesses(List<YelpBusiness> businesses) {
+        this.businesses = businesses;
     }
-
-     @Override
-     public Call<YelpService> searchRestaurants(String authHeader, String searchTerm, String location) {
-         return null;
-     }
-
-     @Override
-     public Call<YelpService> searchEvents(String authHeader, String searchTerm, String location) {
-         return null;
-     }
  }

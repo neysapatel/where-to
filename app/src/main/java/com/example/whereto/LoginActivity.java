@@ -31,7 +31,7 @@ public class LoginActivity extends AppCompatActivity {
             goMainActivity();
         }
 
-        etUsername = findViewById(R.id.tbEmail);
+        etUsername = findViewById(R.id.tbDestination);
         etPass = findViewById(R.id.tbPassword);
         loginButton = findViewById(R.id.loginBtn);
         signup = findViewById(R.id.signup);

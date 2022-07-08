@@ -1,38 +1,17 @@
 package com.example.whereto;
 
 public class Question {
-    private String attractionName;
-    private String attractionLocation;
-    private String attractionDescription;
+    private String prompt;
 
-    public String getAttractionName() {
-        return attractionName;
+    public String getPrompt() {
+        return prompt;
     }
 
-    public void setAttractionName(String name) {
-        this.attractionName = name;
+    public void setPrompt(String p) {
+        this.prompt = p;
     }
 
-    public String getAttractionLocation() {
-        return attractionLocation;
-    }
-
-    public void setAttractionLocation(String location) {
-        this.attractionLocation = location;
-    }
-
-
-    public String getAttractionDescription() {
-        return attractionDescription;
-    }
-
-    public void setAttractionDescription(String description) {
-        this.attractionDescription = description;
-    }
-
-    public Question(String name, String location, String description) {
-        this.attractionName = name;
-        this.attractionLocation = location;
-        this.attractionDescription = description;
+    public Question(String p) {
+        this.prompt = p;
     }
 }

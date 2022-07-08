@@ -14,5 +14,5 @@ public interface YelpServiceInterface {
         Call<YelpService> searchRestaurants(@Header("Authorization") String authHeader, @Query("term") String searchTerm, @Query("location") String location);
 
         @GET("events")
-        Call<YelpService> searchEvents(@Header("Authorization") String authHeader, @Query("category") String searchTerm, @Query("location") String location);
+        Call<YelpService> searchEvents(@Header("Authorization") String authHeader, @Query("category") String searchCategory, @Query("location") String location);
 }

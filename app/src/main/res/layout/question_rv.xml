@@ -14,45 +14,19 @@
         android:layout_margin="3dp"
         android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/ivPic"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:scaleType="centerCrop" />
-
         <TextView
-            android:id="@+id/tvName"
+            android:id="@+id/tvPrompt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="3dp"
-            android:text="Attraction Name"
+            android:text="would you rather ..."
             android:textColor="@color/black" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:weightSum="2">
-
-            <TextView
-                android:id="@+id/tvLocation"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:padding="3dp"
-                android:text="Location"
-                android:textColor="@color/black" />
-
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/tvDescription"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:padding="3dp"
-            android:text="Description"
-            android:textColor="@color/black" />
+            android:weightSum="2"/>
 
     </LinearLayout>
 

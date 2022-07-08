@@ -39,12 +39,7 @@ public class QuestionsAdapter extends BaseAdapter {
             v = LayoutInflater.from(parent.getContext()).inflate(R.layout.question_rv, parent, false);
         }
 
-        ((TextView) v.findViewById(R.id.tvName)).setText(questions.get(position).getAttractionName());
-        ((TextView) v.findViewById(R.id.tvLocation)).setText(questions.get(position).getAttractionLocation());
-        ((TextView) v.findViewById(R.id.tvDescription)).setText(questions.get(position).getAttractionDescription());
-
-        // TODO: add image?
-
+        ((TextView) v.findViewById(R.id.tvPrompt)).setText(questions.get(position).getPrompt());
         return v;
     }
 }

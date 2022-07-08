@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">where to</string>
+    <string name="date_button_set">Set Date</string>
+    <string name="date_selected"></string>
 </resources>
