@@ -12,7 +12,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
  public class YelpService {
-
     @SerializedName("total")
     private int total;
     @SerializedName("businesses")

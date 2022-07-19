@@ -1,16 +1,14 @@
 package com.example.whereto.fragments;
 
 import android.app.DatePickerDialog;
-import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -24,6 +22,9 @@ import com.example.whereto.R;
 import com.example.whereto.models.UserPreferences;
 import com.google.android.material.slider.LabelFormatter;
 import com.google.android.material.slider.Slider;
+import com.google.android.material.textfield.TextInputEditText;
+
+import org.parceler.Parcels;
 
 import java.text.NumberFormat;
 import java.text.ParseException;
@@ -32,7 +33,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Currency;
 import java.util.Date;
-import java.util.Locale;
 
 public class PlanTripFragment extends Fragment {
     private SwipeDeck cardStack;
@@ -40,6 +40,7 @@ public class PlanTripFragment extends Fragment {
     EditText startDate;
     EditText endDate;
     DatePickerDialog datePickerDialog;
+    UserPreferences userPreferences = new UserPreferences();
 
     public PlanTripFragment() {}
 
@@ -47,12 +48,9 @@ public class PlanTripFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        UserPreferences userPreferences = new UserPreferences();
-
-        getQuestionDeck(view, userPreferences);
-        getTripStartDate(userPreferences);
-        getTripEndDate(userPreferences);
-        getBudget(userPreferences);
+        showQuestionDeck(view);
+        saveTripStartDate();
+        saveTripEndDate();
 
         Button planTripButton;
         planTripButton = view.findViewById(R.id.planButton);
@@ -60,7 +58,7 @@ public class PlanTripFragment extends Fragment {
         planTripButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                planTrip(userPreferences);
+                planTrip();
             }
         });
     }
@@ -71,7 +69,13 @@ public class PlanTripFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_plan, container, false);
     }
 
-    public void getQuestionDeck(final View view, UserPreferences userPreferences) {
+    public void saveDestination() {
+        TextInputEditText etDestination = getView().findViewById(R.id.tbUsername);
+        String destination = etDestination.getText().toString();
+        userPreferences.setDestination(destination);
+    }
+
+    public void showQuestionDeck(final View view) {
         questionList = new ArrayList<>();
         cardStack = (SwipeDeck) view.findViewById(R.id.swipe_deck);
 
@@ -81,7 +85,7 @@ public class PlanTripFragment extends Fragment {
         final String ATHLETIC = "active/athletic activities";
         final String ARTS = "arts & entertainment";
         final String SHOPPING = "outlet stores/shopping centres/souvenir shops";
-        final String NIGHTLIFE = "nightlife/bars";
+        final String BARS = "bars";
         final String SPAS = "beauty & spas";
 
         questionList.add(new Question(FOOD));
@@ -90,7 +94,7 @@ public class PlanTripFragment extends Fragment {
         questionList.add(new Question(ATHLETIC));
         questionList.add(new Question(ARTS));
         questionList.add(new Question(SHOPPING));
-        questionList.add(new Question(NIGHTLIFE));
+        questionList.add(new Question(BARS));
         questionList.add(new Question(SPAS));
 
         final QuestionsAdapter adapter = new QuestionsAdapter(questionList, view.getContext());
@@ -124,8 +128,8 @@ public class PlanTripFragment extends Fragment {
                     case SHOPPING:
                         userPreferences.setShopping(true);
                         break;
-                    case NIGHTLIFE:
-                        userPreferences.setNightlife(true);
+                    case BARS:
+                        userPreferences.setBars(true);
                         break;
                     default:
                         userPreferences.setBeauty(true);
@@ -151,7 +155,7 @@ public class PlanTripFragment extends Fragment {
         });
     }
 
-    public void getTripStartDate(UserPreferences userPreferences) {
+    public void saveTripStartDate() {
         startDate = (EditText) getView().findViewById(R.id.startDate);
         startDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -200,7 +204,7 @@ public class PlanTripFragment extends Fragment {
         });
     }
 
-    public void getTripEndDate(UserPreferences userPreferences) {
+    public void saveTripEndDate() {
         endDate = (EditText) getView().findViewById(R.id.endDate);
         endDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -250,7 +254,7 @@ public class PlanTripFragment extends Fragment {
         });
     }
 
-    public void getBudget(UserPreferences userPreferences) {
+    public void saveBudget() {
         Slider budgetSlider = getView().findViewById(R.id.budgetSlider);
         budgetSlider.setLabelFormatter(new LabelFormatter() {
             @NonNull
@@ -270,17 +274,22 @@ public class PlanTripFragment extends Fragment {
         });
     }
 
-    public void getRadius(UserPreferences userPreferences) {
+    public void saveRadius() {
         Slider radiusSlider = getView().findViewById(R.id.radiusSlider);
         radiusSlider.addOnChangeListener(new Slider.OnChangeListener() {
             @Override
-            public void onValueChange(@NonNull Slider slider, float value, boolean fromUser) {
+            public void onValueChange(@NonNull Slider slider, int value, boolean fromUser) {
                 userPreferences.setRadius(value);
             }
         });
     }
 
-    public void planTrip(UserPreferences userPreferences) {
-        // TODO: use tripStart, tripEnd, budget, radius, and preference booleans to plan trip
+    public void planTrip() {
+        saveDestination();
+        saveBudget();
+        saveRadius();
+
+        Intent i = new Intent(getContext(), PlanTripFragment.class);
+        i.putExtra("preferences", Parcels.wrap(userPreferences));
     }
 }

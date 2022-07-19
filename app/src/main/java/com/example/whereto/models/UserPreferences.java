@@ -1,18 +1,32 @@
 package com.example.whereto.models;
 
+import android.view.View;
+
+import org.parceler.Parcel;
+
+@Parcel
 public class UserPreferences {
+    private String destination;
     private float budget = 0;
-    private float radius = 0;
+    private int radius = 0;
     private String tripStart;
     private String tripEnd;
-    private boolean food = false;
-    private boolean hotels = false;
-    private boolean tours = false;
-    private boolean athletic = false;
-    private boolean arts = false;
-    private boolean shopping = false;
-    private boolean nightlife = false;
-    private boolean beauty = false;
+    private static boolean food = false;
+    private static boolean hotels = false;
+    private static boolean tours = false;
+    private static boolean athletic = false;
+    private static boolean arts = false;
+    private static boolean shopping = false;
+    private static boolean bars = false;
+    private static boolean beauty = false;
+
+    public String getDestination() {
+        return destination;
+    }
+
+    public void setDestination(String destination) {
+        this.destination = destination;
+    }
 
     public float getBudget() {
         return budget;
@@ -22,11 +36,11 @@ public class UserPreferences {
         this.budget = budget;
     }
 
-    public float getRadius() {
+    public int getRadius() {
         return radius;
     }
 
-    public void setRadius(float radius) {
+    public void setRadius(int radius) {
         this.radius = radius;
     }
 
@@ -46,7 +60,7 @@ public class UserPreferences {
         this.tripEnd = tripEnd;
     }
 
-    public boolean isFood() {
+    public static boolean isFood() {
         return food;
     }
 
@@ -54,7 +68,7 @@ public class UserPreferences {
         this.food = food;
     }
 
-    public boolean isHotels() {
+    public static boolean isHotels() {
         return hotels;
     }
 
@@ -62,7 +76,7 @@ public class UserPreferences {
         this.hotels = hotels;
     }
 
-    public boolean isTours() {
+    public static boolean isTours() {
         return tours;
     }
 
@@ -70,7 +84,7 @@ public class UserPreferences {
         this.tours = tours;
     }
 
-    public boolean isAthletic() {
+    public static boolean isAthletic() {
         return athletic;
     }
 
@@ -78,7 +92,7 @@ public class UserPreferences {
         this.athletic = athletic;
     }
 
-    public boolean isArts() {
+    public static boolean isArts() {
         return arts;
     }
 
@@ -86,7 +100,7 @@ public class UserPreferences {
         this.arts = arts;
     }
 
-    public boolean isShopping() {
+    public static boolean isShopping() {
         return shopping;
     }
 
@@ -94,15 +108,15 @@ public class UserPreferences {
         this.shopping = shopping;
     }
 
-    public boolean isNightlife() {
-        return nightlife;
+    public static boolean isBars() {
+        return bars;
     }
 
-    public void setNightlife(boolean nightlife) {
-        this.nightlife = nightlife;
+    public void setBars(boolean bars) {
+        this.bars = bars;
     }
 
-    public boolean isBeauty() {
+    public static boolean isBeauty() {
         return beauty;
     }
 
