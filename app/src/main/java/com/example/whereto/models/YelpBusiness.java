@@ -2,6 +2,8 @@ package com.example.whereto.models;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public class YelpBusiness {
     @SerializedName("name")
     private String name;
@@ -11,6 +13,8 @@ public class YelpBusiness {
     private double rating;
     @SerializedName("distance")
     private double distanceAway;
+    private List<YelpCategory> categories;
+    private YelpLocation location;
 
     public String getName() {
         return name;
@@ -42,5 +46,9 @@ public class YelpBusiness {
 
     public void setDistanceAway(double distanceAway) {
         this.distanceAway = distanceAway*0.000621371;
+    }
+
+    public List<YelpCategory> getCategories() {
+        return categories;
     }
 }

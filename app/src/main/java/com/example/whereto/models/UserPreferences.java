@@ -1,8 +1,17 @@
 package com.example.whereto.models;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+
 public class UserPreferences {
-    private float budget = 0;
-    private float radius = 0;
+    private String destination;
+    private float budget;
+    private float radius;
     private String tripStart;
     private String tripEnd;
     private boolean food = false;
@@ -11,8 +20,30 @@ public class UserPreferences {
     private boolean athletic = false;
     private boolean arts = false;
     private boolean shopping = false;
-    private boolean nightlife = false;
+    private boolean bars = false;
     private boolean beauty = false;
+
+    final String FOOD = "food";
+    final String RESTAURANTS = "restaurants";
+    final String HOTELS = "hotels";
+    final String TOURS = "tours";
+    final String ACTIVE = "active";
+    final String ARTS = "arts";
+    final String OUTLET_STORES = "outlet_stores";
+    final String SHOPPING_CENTRES = "shoppingcenters";
+    final String SOUVENIRS = "souvenirs";
+    final String BARS = "bars";
+    final String SPAS = "beautysvc";
+
+    final List<String> allEventCategories = Arrays.asList("music", "visual-arts", "performing-arts", "film", "lectures-books", "fashion", "food-and-drink", "festivals-fairs", "charities", "sports-active-life", "nightlife", "kids-family", "other");
+
+    public String getDestination() {
+        return destination;
+    }
+
+    public void setDestination(String destination) {
+        this.destination = destination;
+    }
 
     public float getBudget() {
         return budget;
@@ -22,8 +53,8 @@ public class UserPreferences {
         this.budget = budget;
     }
 
-    public float getRadius() {
-        return radius;
+    public int getRadius() {
+        return Math.round(radius);
     }
 
     public void setRadius(float radius) {
@@ -94,12 +125,12 @@ public class UserPreferences {
         this.shopping = shopping;
     }
 
-    public boolean isNightlife() {
-        return nightlife;
+    public boolean isBars() {
+        return bars;
     }
 
-    public void setNightlife(boolean nightlife) {
-        this.nightlife = nightlife;
+    public void setBars(boolean bars) {
+        this.bars = bars;
     }
 
     public boolean isBeauty() {
@@ -108,5 +139,60 @@ public class UserPreferences {
 
     public void setBeauty(boolean beauty) {
         this.beauty = beauty;
+    }
+
+
+    public boolean matchBusinessPreferences(YelpBusiness business, HashMap<String, List<YelpCategory>> allBusinessCategories) {
+        List<YelpCategory> categories = business.getCategories();
+        for (YelpCategory category : categories) {
+            String categoryName = category.getTitle();
+            String categoryParent = "";
+
+            if (mapContains(categoryName, allBusinessCategories))
+                categoryParent = getKeyFromValue(categoryName, allBusinessCategories);
+
+            if (isFood() && (categoryName.equals(FOOD) || categoryName.equals(RESTAURANTS) || categoryParent.equals(FOOD) || categoryParent.equals(RESTAURANTS))) return true;
+            else if (isHotels() && (categoryName == HOTELS || categoryParent == HOTELS)) return true;
+            else if (isTours() && (categoryName == TOURS || categoryParent == TOURS)) return true;
+            else if (isAthletic() && (categoryName == ACTIVE || categoryParent == ACTIVE)) return true;
+            else if (isArts() && (categoryName == ARTS || categoryParent == ARTS)) return true;
+            else if (isShopping() && (categoryName == OUTLET_STORES || categoryName == SHOPPING_CENTRES || categoryName == SOUVENIRS || categoryParent == OUTLET_STORES || categoryParent == SHOPPING_CENTRES || categoryParent == SOUVENIRS)) return true;
+            else if (isBars() && (categoryName == BARS || categoryParent == BARS)) return true;
+            else if (isBeauty() && (categoryName == SPAS || categoryParent == SPAS)) return true;
+        }
+        return false;
+    }
+
+    private boolean mapContains(String title, HashMap<String, List<YelpCategory>> allBusinessCategories) {
+        for (List<YelpCategory> list : allBusinessCategories.values()) {
+            for (YelpCategory category : list) {
+                if (category.getTitle().equals(title)) return true;
+            }
+        }
+        return false;
+    }
+
+    private String getKeyFromValue(String value, HashMap<String, List<YelpCategory>> allBusinessCategories) {
+        for (String key : allBusinessCategories.keySet()) {
+            for (YelpCategory category : allBusinessCategories.get(key)) {
+                if (category.getTitle().equals(value)) return key;
+            }
+        }
+        return null;
+    }
+
+    public boolean appropriateDistance(YelpBusiness business) {
+        return (business.getDistanceAway() <= radius);
+    }
+
+    public boolean matchEventPreferences(YelpEvent event) throws ParseException {
+        return (allEventCategories.contains(event.getCategory()) && (event.isFree() || (event.getCost() <= budget)) && afterTripStartDate(event.getTimeStart()));
+    }
+
+    private boolean afterTripStartDate(String timeStart) throws ParseException {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+        Date eventStart = dateFormat.parse(timeStart);
+        Date tripStartDate = dateFormat.parse(tripStart);
+        return eventStart.after(tripStartDate);
     }
 }

@@ -30,11 +30,11 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 Fragment fragment;
                 switch (item.getItemId()) {
-                    case R.id.action_home:
-                        fragment = new HomeFragment();
-                        break;
                     case R.id.action_plan_trip:
                         fragment = new PlanTripFragment();
+                        break;
+                    case R.id.action_home:
+                        fragment = new HomeFragment();
                         break;
                     case R.id.action_map:
                         fragment = new MapFragment();
@@ -50,6 +50,6 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
-        bottomNavigationView.setSelectedItemId(R.id.action_home);
+        bottomNavigationView.setSelectedItemId(R.id.action_plan_trip);
     }
 }
