@@ -30,21 +30,8 @@ public class UserPreferences {
     final String SOUVENIRS = "souvenirs";
     final String BARS = "bars";
     final String SPAS = "beautysvc";
-    final String MUSIC = "music";
-    final String VISUAL_ARTS = "visual-arts";
-    final String PERFORMING_ARTS = "performing-arts";
-    final String FILM = "film";
-    final String LECTURES_BOOK = "lectures-book";
-    final String FASHION = "fashion";
-    final String FOOD_DRINK = "food-and-drink";
-    final String FESTIVALS_FAIRS = "festivals-fairs";
-    final String CHARITIES = "charities";
-    final String SPORTS = "sports-active-life";
-    final String NIGHTLIFE = "nightlife";
-    final String FAMILY = "kids-family";
-    final String OTHER = "other";
 
-    final List<String> allEventCategories = Arrays.asList(MUSIC, VISUAL_ARTS, PERFORMING_ARTS, FILM, LECTURES_BOOK, FASHION, FOOD_DRINK, FESTIVALS_FAIRS, CHARITIES, SPORTS, NIGHTLIFE, FAMILY, OTHER);
+    final List<String> allEventCategories = Arrays.asList("music", "visual-arts", "performing-arts", "film", "lectures-books", "fashion", "food-and-drink", "festivals-fairs", "charities", "sports-active-life", "nightlife", "kids-family", "other");
 
     public String getDestination() {
         return destination;
