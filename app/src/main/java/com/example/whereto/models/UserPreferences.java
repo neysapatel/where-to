@@ -1,6 +1,10 @@
 package com.example.whereto.models;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -181,7 +185,14 @@ public class UserPreferences {
         return (business.getDistanceAway() <= radius);
     }
 
-    public boolean matchEventPreferences(YelpEvent event) {
-        return allEventCategories.contains(event.getCategory());
+    public boolean matchEventPreferences(YelpEvent event) throws ParseException {
+        return (allEventCategories.contains(event.getCategory()) && (event.isFree() || (event.getCost() <= budget)) && afterTripStartDate(event.getTimeStart()));
+    }
+
+    private boolean afterTripStartDate(String timeStart) throws ParseException {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+        Date eventStart = dateFormat.parse(timeStart);
+        Date tripStartDate = dateFormat.parse(tripStart);
+        return eventStart.after(tripStartDate);
     }
 }
