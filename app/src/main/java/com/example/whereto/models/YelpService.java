@@ -16,6 +16,8 @@ import retrofit2.Response;
     private int total;
     @SerializedName("businesses")
     private List<YelpBusiness> businesses;
+     @SerializedName("events")
+     private List<YelpEvent> events;
 
     public int getTotal() {
         return total;
@@ -28,6 +30,10 @@ import retrofit2.Response;
     public List<YelpBusiness> getBusinesses() {
         return businesses;
     }
+
+     public List<YelpEvent> getEvents() {
+         return events;
+     }
 
     public void setBusinesses(List<YelpBusiness> businesses) {
         this.businesses = businesses;

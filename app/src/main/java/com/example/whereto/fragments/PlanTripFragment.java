@@ -1,7 +1,6 @@
 package com.example.whereto.fragments;
 
 import android.app.DatePickerDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,17 +13,20 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProviders;
+
 import com.daprlabs.cardstack.SwipeDeck;
 
 import com.example.whereto.Question;
 import com.example.whereto.QuestionsAdapter;
 import com.example.whereto.R;
+import com.example.whereto.models.SharedViewModel;
 import com.example.whereto.models.UserPreferences;
 import com.google.android.material.slider.LabelFormatter;
 import com.google.android.material.slider.Slider;
 import com.google.android.material.textfield.TextInputEditText;
-
-import org.parceler.Parcels;
 
 import java.text.NumberFormat;
 import java.text.ParseException;
@@ -41,8 +43,16 @@ public class PlanTripFragment extends Fragment {
     EditText endDate;
     DatePickerDialog datePickerDialog;
     UserPreferences userPreferences = new UserPreferences();
+    private SharedViewModel model;
 
-    public PlanTripFragment() {}
+    public PlanTripFragment() {
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        model = ViewModelProviders.of(getActivity()).get(SharedViewModel.class);
+    }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -52,13 +62,50 @@ public class PlanTripFragment extends Fragment {
         saveTripStartDate();
         saveTripEndDate();
 
+        // get the budget
+        Slider budgetSlider = getView().findViewById(R.id.budgetSlider);
+        budgetSlider.setLabelFormatter(new LabelFormatter() {
+            @NonNull
+            @Override
+            public String getFormattedValue(float value) {
+                NumberFormat currencyFormat = NumberFormat.getCurrencyInstance();
+                currencyFormat.setCurrency(Currency.getInstance("USD"));
+                return currencyFormat.format(value);
+            }
+        });
+
+        budgetSlider.addOnChangeListener(new Slider.OnChangeListener() {
+            @Override
+            public void onValueChange(@NonNull Slider slider, float value, boolean fromUser) {
+                userPreferences.setBudget(value);
+            }
+        });
+
+        // get the radius (how far from the destination the user is willing to go)
+        Slider radiusSlider = getView().findViewById(R.id.radiusSlider);
+        radiusSlider.addOnChangeListener(new Slider.OnChangeListener() {
+            @Override
+            public void onValueChange(@NonNull Slider slider, float value, boolean fromUser) {
+                userPreferences.setRadius(value);
+            }
+        });
+
         Button planTripButton;
         planTripButton = view.findViewById(R.id.planButton);
 
         planTripButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                planTrip();
+                saveDestination();
+                updateViewModel(userPreferences);
+
+                // go to the dashboard/homepage fragment
+                Fragment homeFragment = new HomeFragment();
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.action_plan_trip, homeFragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
             }
         });
     }
@@ -103,7 +150,9 @@ public class PlanTripFragment extends Fragment {
 
         cardStack.setEventCallback(new SwipeDeck.SwipeEventCallback() {
             @Override
-            public void cardSwipedLeft(int position) {}
+            public void cardSwipedLeft(int position) {
+                // preferences are already false by default
+            }
 
             @Override
             public void cardSwipedRight(int position) {
@@ -143,7 +192,8 @@ public class PlanTripFragment extends Fragment {
             }
 
             @Override
-            public void cardsDepleted() {}
+            public void cardsDepleted() {
+            }
 
             public void cardActionDown() {
                 Toast.makeText(view.getContext(), "Please do not swipe down", Toast.LENGTH_SHORT).show();
@@ -160,10 +210,10 @@ public class PlanTripFragment extends Fragment {
         startDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final Calendar c = Calendar.getInstance();
-                int mYear = c.get(Calendar.YEAR);
-                int mMonth = c.get(Calendar.MONTH);
-                int mDay = c.get(Calendar.DAY_OF_MONTH);
+                final Calendar calendar = Calendar.getInstance();
+                int mYear = calendar.get(Calendar.YEAR);
+                int mMonth = calendar.get(Calendar.MONTH);
+                int mDay = calendar.get(Calendar.DAY_OF_MONTH);
                 datePickerDialog = new DatePickerDialog(v.getContext(), new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
@@ -209,10 +259,10 @@ public class PlanTripFragment extends Fragment {
         endDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final Calendar c = Calendar.getInstance();
-                int mYear = c.get(Calendar.YEAR);
-                int mMonth = c.get(Calendar.MONTH);
-                int mDay = c.get(Calendar.DAY_OF_MONTH);
+                final Calendar calendar = Calendar.getInstance();
+                int mYear = calendar.get(Calendar.YEAR);
+                int mMonth = calendar.get(Calendar.MONTH);
+                int mDay = calendar.get(Calendar.DAY_OF_MONTH);
                 datePickerDialog = new DatePickerDialog(v.getContext(), new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
@@ -254,42 +304,7 @@ public class PlanTripFragment extends Fragment {
         });
     }
 
-    public void saveBudget() {
-        Slider budgetSlider = getView().findViewById(R.id.budgetSlider);
-        budgetSlider.setLabelFormatter(new LabelFormatter() {
-            @NonNull
-            @Override
-            public String getFormattedValue(float value) {
-                NumberFormat currencyFormat = NumberFormat.getCurrencyInstance();
-                currencyFormat.setCurrency(Currency.getInstance("USD"));
-                return currencyFormat.format(value);
-            }
-        });
-
-        budgetSlider.addOnChangeListener(new Slider.OnChangeListener() {
-            @Override
-            public void onValueChange(@NonNull Slider slider, float value, boolean fromUser) {
-                userPreferences.setBudget(value);
-            }
-        });
-    }
-
-    public void saveRadius() {
-        Slider radiusSlider = getView().findViewById(R.id.radiusSlider);
-        radiusSlider.addOnChangeListener(new Slider.OnChangeListener() {
-            @Override
-            public void onValueChange(@NonNull Slider slider, int value, boolean fromUser) {
-                userPreferences.setRadius(value);
-            }
-        });
-    }
-
-    public void planTrip() {
-        saveDestination();
-        saveBudget();
-        saveRadius();
-
-        Intent i = new Intent(getContext(), PlanTripFragment.class);
-        i.putExtra("preferences", Parcels.wrap(userPreferences));
+    private void updateViewModel(UserPreferences yourItem) {
+        model.setItem(yourItem);
     }
 }
