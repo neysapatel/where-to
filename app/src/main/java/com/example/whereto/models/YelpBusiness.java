@@ -13,8 +13,12 @@ public class YelpBusiness {
     private double rating;
     @SerializedName("distance")
     private double distanceAway;
+   // @SerializedName("display_address");
+    private String[] display_address;
     private List<YelpCategory> categories;
     private YelpLocation location;
+
+
 
     public String getName() {
         return name;
@@ -50,5 +54,9 @@ public class YelpBusiness {
 
     public List<YelpCategory> getCategories() {
         return categories;
+    }
+
+    public String[] getAddress() {
+        return display_address;
     }
 }

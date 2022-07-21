@@ -103,7 +103,7 @@ public class PlanTripFragment extends Fragment {
                 Fragment homeFragment = new HomeFragment();
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.action_plan_trip, homeFragment);
+                fragmentTransaction.replace(R.id.container_view, homeFragment);
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
             }

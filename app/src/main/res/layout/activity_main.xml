@@ -8,7 +8,7 @@
     tools:context=".MainActivity">
 
     <FrameLayout
-        android:id="@+id/flContainer"
+        android:id="@+id/container_view"
         android:layout_width="399dp"
         android:layout_height="692dp"
         android:layout_above="@id/bottomNavigation"

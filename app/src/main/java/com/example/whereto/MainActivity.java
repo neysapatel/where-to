@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
                         fragment = new NotificationsFragment();
                         break;
                 }
-                fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
+                fragmentManager.beginTransaction().replace(R.id.container_view, fragment).commit();
                 return true;
             }
         });

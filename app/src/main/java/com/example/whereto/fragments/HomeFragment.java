@@ -9,9 +9,12 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.whereto.Constants;
 import com.example.whereto.R;
+import com.example.whereto.models.ItineraryAdapter;
 import com.example.whereto.models.SharedViewModel;
 import com.example.whereto.models.UserPreferences;
 import com.example.whereto.models.YelpBusiness;
@@ -19,7 +22,6 @@ import com.example.whereto.models.YelpCategory;
 import com.example.whereto.models.YelpEvent;
 import com.example.whereto.models.YelpService;
 import com.example.whereto.models.YelpServiceInterface;
-import com.parse.ParseUser;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -27,6 +29,7 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -43,6 +46,8 @@ public class HomeFragment extends Fragment {
     UserPreferences userPreferences;
     HashMap<String, List<YelpCategory>> allBusinessCategories = new HashMap<>();
     private SharedViewModel model;
+    ItineraryAdapter adapter;
+    RecyclerView rvItinerary;
 
     public HomeFragment() {
     }
@@ -67,6 +72,12 @@ public class HomeFragment extends Fragment {
 
         readFromJsonFile();
         getYelpData();
+
+        adapter = new ItineraryAdapter(getContext(), matchedBusinesses);
+        rvItinerary = view.findViewById(R.id.rvItinerary);
+        rvItinerary.setLayoutManager(new LinearLayoutManager(getContext()));
+        rvItinerary.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -83,7 +94,6 @@ public class HomeFragment extends Fragment {
 
     public void getSearchResults(YelpServiceInterface yelpServiceInterface) {
         String location = userPreferences.getDestination();
-
         getBusinessResults(yelpServiceInterface, location);
         getEventsResults(yelpServiceInterface, location);
     }
@@ -115,7 +125,11 @@ public class HomeFragment extends Fragment {
             public void onResponse(Call<YelpService> eventsCall, Response<YelpService> response) {
                 if (response.body() != null) {
                     for (YelpEvent event : response.body().getEvents()) {
-                        if (userPreferences.matchEventPreferences(event)) matchedEvents.add(event);
+                        try {
+                            if (userPreferences.matchEventPreferences(event)) matchedEvents.add(event);
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
                     }
 
                 }

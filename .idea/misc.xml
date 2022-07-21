@@ -7,12 +7,13 @@
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.21240942028985507" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_signup.xml" value="0.21240942028985507" />
-        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.10053710937500002" />
+        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.24332427978515625" />
         <entry key="app/src/main/res/layout/fragment_map.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_notifications.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/fragment_plan.xml" value="0.36289825439453127" />
+        <entry key="app/src/main/res/layout/fragment_plan.xml" value="0.22704081632653061" />
         <entry key="app/src/main/res/layout/fragment_post.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_ratings.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/item_itinerary.xml" value="0.3836740908415422" />
         <entry key="app/src/main/res/layout/question_rv.xml" value="0.7012050349537919" />
         <entry key="app/src/main/res/menu/menu_bottom_navigation.xml" value="0.32864583333333336" />
       </map>
