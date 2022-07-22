@@ -9,7 +9,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.example.whereto.fragments.HomeFragment;
-import com.example.whereto.fragments.MapFragment;
+import com.example.whereto.fragments.SeeOthersFragment;
 import com.example.whereto.fragments.NotificationsFragment;
 import com.example.whereto.fragments.PlanTripFragment;
 import com.example.whereto.fragments.RatingsFragment;
@@ -36,8 +36,8 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.action_home:
                         fragment = new HomeFragment();
                         break;
-                    case R.id.action_map:
-                        fragment = new MapFragment();
+                    case R.id.action_others:
+                        fragment = new SeeOthersFragment();
                         break;
                     case R.id.action_rating:
                         fragment = new RatingsFragment();

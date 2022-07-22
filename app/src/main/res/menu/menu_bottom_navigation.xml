@@ -14,9 +14,9 @@
         android:title="Home"
         app:showAsAction="always" />
     <item
-        android:id="@+id/action_map"
+        android:id="@+id/action_others"
         android:icon="@mipmap/map"
-        android:title="Map"
+        android:title="Others"
         app:showAsAction="always" />
     <item
         android:id="@+id/action_rating"

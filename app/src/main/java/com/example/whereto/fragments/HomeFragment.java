@@ -77,7 +77,6 @@ public class HomeFragment extends Fragment {
         rvItinerary = view.findViewById(R.id.rvItinerary);
         rvItinerary.setLayoutManager(new LinearLayoutManager(getContext()));
         rvItinerary.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -109,6 +108,8 @@ public class HomeFragment extends Fragment {
                             matchedBusinesses.add(business);
                     }
                 }
+                adapter.addAll(matchedBusinesses);
+                adapter.notifyDataSetChanged();
             }
 
             @Override

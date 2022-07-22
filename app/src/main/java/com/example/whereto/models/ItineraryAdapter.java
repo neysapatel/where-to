@@ -78,10 +78,12 @@ public class ItineraryAdapter extends RecyclerView.Adapter<ItineraryAdapter.View
             tvAttractionName.setText(business.getName());
 
             String address = "";
-            for (String addressLine : business.getAddress()) {
-                address += addressLine;
+            if (business.getAddress() != null) {
+                for (String addressLine : business.getAddress()) {
+                    address += addressLine;
+                }
+                tvAddress.setText(address);
             }
-            tvAddress.setText(address);
 
             tvDistance.setText("" + business.getDistanceAway());
             tvRating.setText("" + business.getRating());

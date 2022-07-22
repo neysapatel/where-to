@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Locale;
 
 public class UserPreferences {
+
+    private String privacyControl;
     private String destination;
     private float budget;
     private float radius;
@@ -36,6 +38,14 @@ public class UserPreferences {
     final String SPAS = "beautysvc";
 
     final List<String> allEventCategories = Arrays.asList("music", "visual-arts", "performing-arts", "film", "lectures-books", "fashion", "food-and-drink", "festivals-fairs", "charities", "sports-active-life", "nightlife", "kids-family", "other");
+
+    public String getPrivacyControl() {
+        return privacyControl;
+    }
+
+    public void setPrivacyControl(String privacyLevel) {
+        privacyControl = privacyLevel;
+    }
 
     public String getDestination() {
         return destination;
@@ -194,8 +204,8 @@ public class UserPreferences {
         Date parsedDate = eventDateFormat.parse(timeStart);
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         String eventStart = dateFormat.format(parsedDate);
-        Date eventStartDate = dateFormat.parse(eventStart);
-        Date tripStartDate = dateFormat.parse(tripStart);
+        Date eventStartDate = new SimpleDateFormat("dd/MM/yyyy").parse(eventStart);
+        Date tripStartDate = new SimpleDateFormat("dd/MM/yyyy").parse(tripStart);
         return eventStartDate.after(tripStartDate);
     }
 }
