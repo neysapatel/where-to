@@ -101,17 +101,6 @@ public class ItineraryAdapter extends RecyclerView.Adapter<ItineraryAdapter.View
             } else {
                 ivAttractionImage.setVisibility(View.GONE);
             }
-
-            /*
-            tvBody.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent i = new Intent(context, TweetDetailsActivity.class);
-                    i.putExtra("tweet", Parcels.wrap(tweet));
-                    context.startActivity(i);
-                }
-            });
-             */
         }
     }
 }
