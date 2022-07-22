@@ -1,14 +1,18 @@
 package com.example.whereto.models;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 public class UserPreferences {
+
+    private String privacyControl;
     private String destination;
     private float budget;
     private float radius;
@@ -35,7 +39,27 @@ public class UserPreferences {
     final String BARS = "bars";
     final String SPAS = "beautysvc";
 
+    int foodCount = 0;
+    int hotelCount = 0;
+    int attractionCount = 0;
+    boolean stopSearching = false;
+    final int MEALS_PER_DAY = 3;
+    final int HOTELS_PER_DAY = 1;
+    final int ATTRACTIONS_PER_DAY = 4;
+
     final List<String> allEventCategories = Arrays.asList("music", "visual-arts", "performing-arts", "film", "lectures-books", "fashion", "food-and-drink", "festivals-fairs", "charities", "sports-active-life", "nightlife", "kids-family", "other");
+
+    public String getPrivacyControl() {
+        return privacyControl;
+    }
+
+    public boolean keepSearching() {
+        return stopSearching;
+    }
+
+    public void setPrivacyControl(String privacyLevel) {
+        privacyControl = privacyLevel;
+    }
 
     public String getDestination() {
         return destination;
@@ -142,7 +166,18 @@ public class UserPreferences {
     }
 
 
-    public boolean matchBusinessPreferences(YelpBusiness business, HashMap<String, List<YelpCategory>> allBusinessCategories) {
+    public boolean matchBusinessPreferences(YelpBusiness business, HashMap<String, List<YelpCategory>> allBusinessCategories) throws ParseException {
+        final int TRIP_LENGTH = getTripLength();
+
+        boolean enoughFood = foodCount >= TRIP_LENGTH * MEALS_PER_DAY;
+        boolean enoughHotels = hotelCount >= TRIP_LENGTH * HOTELS_PER_DAY;
+        boolean enoughAttractions = attractionCount >= TRIP_LENGTH * ATTRACTIONS_PER_DAY;
+
+        if (enoughFood && enoughHotels && enoughAttractions) {
+            stopSearching = true;
+            return false;
+        }
+
         List<YelpCategory> categories = business.getCategories();
         for (YelpCategory category : categories) {
             String categoryName = category.getTitle();
@@ -151,16 +186,38 @@ public class UserPreferences {
             if (mapContains(categoryName, allBusinessCategories))
                 categoryParent = getKeyFromValue(categoryName, allBusinessCategories);
 
-            if (isFood() && (categoryName.equals(FOOD) || categoryName.equals(RESTAURANTS) || categoryParent.equals(FOOD) || categoryParent.equals(RESTAURANTS))) return true;
-            else if (isHotels() && (categoryName == HOTELS || categoryParent == HOTELS)) return true;
-            else if (isTours() && (categoryName == TOURS || categoryParent == TOURS)) return true;
-            else if (isAthletic() && (categoryName == ACTIVE || categoryParent == ACTIVE)) return true;
-            else if (isArts() && (categoryName == ARTS || categoryParent == ARTS)) return true;
-            else if (isShopping() && (categoryName == OUTLET_STORES || categoryName == SHOPPING_CENTRES || categoryName == SOUVENIRS || categoryParent == OUTLET_STORES || categoryParent == SHOPPING_CENTRES || categoryParent == SOUVENIRS)) return true;
-            else if (isBars() && (categoryName == BARS || categoryParent == BARS)) return true;
-            else if (isBeauty() && (categoryName == SPAS || categoryParent == SPAS)) return true;
+            if (isFood() && (categoryName.equals(FOOD) || categoryName.equals(RESTAURANTS) || categoryParent.equals(FOOD) || categoryParent.equals(RESTAURANTS)) && !enoughFood) {
+                ++foodCount;
+                return true;
+            }
+            else if (isHotels() && (categoryName.equals(HOTELS) || categoryParent.equals(HOTELS)) && !enoughHotels) {
+                ++hotelCount;
+                return true;
+            }
+
+            if (!enoughAttractions) {
+                ++attractionCount;
+                if (isTours() && (categoryName.equals(TOURS) || categoryParent.equals(TOURS)))
+                    return true;
+                else if (isAthletic() && (categoryName.equals(ACTIVE) || categoryParent.equals(ACTIVE)))
+                    return true;
+                else if (isArts() && (categoryName.equals(ARTS) || categoryParent.equals(ARTS)))
+                    return true;
+                else if (isShopping() && (categoryName.equals(OUTLET_STORES) || categoryName.equals(SHOPPING_CENTRES) || categoryName.equals(SOUVENIRS) || categoryParent.equals(OUTLET_STORES) || categoryParent.equals(SHOPPING_CENTRES) || categoryParent.equals(SOUVENIRS)))
+                    return true;
+                else if (isBars() && (categoryName.equals(BARS) || categoryParent.equals(BARS)))
+                    return true;
+                else if (isBeauty() && (categoryName.equals(SPAS) || categoryParent.equals(SPAS)))
+                    return true;
+            }
         }
         return false;
+    }
+
+    private int getTripLength() throws ParseException {
+        Instant startDate = new SimpleDateFormat("dd/MM/yyyy").parse(tripStart).toInstant();
+        Instant endDate = new SimpleDateFormat("dd/MM/yyyy").parse(tripEnd).toInstant();
+        return (int) ChronoUnit.DAYS.between(startDate,endDate);
     }
 
     private boolean mapContains(String title, HashMap<String, List<YelpCategory>> allBusinessCategories) {
@@ -190,9 +247,12 @@ public class UserPreferences {
     }
 
     private boolean afterTripStartDate(String timeStart) throws ParseException {
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
-        Date eventStart = dateFormat.parse(timeStart);
-        Date tripStartDate = dateFormat.parse(tripStart);
-        return eventStart.after(tripStartDate);
+        SimpleDateFormat eventDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss-hh:mm", Locale.ENGLISH);
+        Date parsedDate = eventDateFormat.parse(timeStart);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        String eventStart = dateFormat.format(parsedDate);
+        Date eventStartDate = new SimpleDateFormat("dd/MM/yyyy").parse(eventStart);
+        Date tripStartDate = new SimpleDateFormat("dd/MM/yyyy").parse(tripStart);
+        return eventStartDate.after(tripStartDate);
     }
 }
