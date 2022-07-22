@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
@@ -13,25 +14,26 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.whereto.R;
+import com.example.whereto.models.BusinessAdapter;
 import com.example.whereto.models.Itinerary;
 import com.example.whereto.models.ItineraryAdapter;
 import com.example.whereto.models.SharedViewModel;
 import com.example.whereto.models.UserPreferences;
 import com.example.whereto.models.YelpBusiness;
 import com.parse.FindCallback;
-import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseRelation;
 import com.parse.ParseUser;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SeeOthersFragment extends Fragment {
     private SharedViewModel model;
     private UserPreferences userPreferences;
     protected ItineraryAdapter adapter;
-    protected List<YelpBusiness> allItineraries;
+    protected List<Itinerary> allItineraries = new ArrayList<>();
     RecyclerView rvItinerary;
 
     public SeeOthersFragment() {
@@ -49,18 +51,23 @@ public class SeeOthersFragment extends Fragment {
                 if (updatedObject != null) userPreferences = updatedObject;
             }
         });
-
-        displayOthers();
-        adapter = new ItineraryAdapter(getContext(), allItineraries);
-        rvItinerary = getView().findViewById(R.id.rvItinerary);
-        rvItinerary.setLayoutManager(new LinearLayoutManager(getContext()));
-        rvItinerary.setAdapter(adapter);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_others, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        displayOthers();
+        adapter = new ItineraryAdapter(getContext(), allItineraries);
+        rvItinerary = view.findViewById(R.id.rvItinerary);
+        rvItinerary.setLayoutManager(new LinearLayoutManager(getContext()));
+        rvItinerary.setAdapter(adapter);
     }
 
     public void displayOthers() {

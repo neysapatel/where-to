@@ -1,5 +1,9 @@
 package com.example.whereto.models;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestOptions;
+import com.example.whereto.R;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,31 +13,25 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
-import com.bumptech.glide.request.RequestOptions;
-import com.example.whereto.R;
-
-import java.util.ArrayList;
 import java.util.List;
 
-public class ItineraryAdapter extends RecyclerView.Adapter<ItineraryAdapter.ViewHolder> {
+public class BusinessAdapter extends RecyclerView.Adapter<BusinessAdapter.ViewHolder> {
     Context context;
-    List<Itinerary> itineraries;
+    List<YelpBusiness> businesses;
+    List<YelpEvent> events;
 
-    public ItineraryAdapter(Context context, List<Itinerary> itineraries) {
+    public BusinessAdapter(Context context, List<YelpBusiness> businesses) {
         this.context = context;
-        this.itineraries = itineraries;
+        this.businesses = businesses;
     }
 
     public void clear() {
-        itineraries.clear();
+        businesses.clear();
         notifyDataSetChanged();
     }
 
-    public void addAll(List<Itinerary> list) {
-        itineraries.addAll(list);
+    public void addAll(List<YelpBusiness> list) {
+        businesses.addAll(list);
         notifyDataSetChanged();
     }
 
@@ -46,13 +44,13 @@ public class ItineraryAdapter extends RecyclerView.Adapter<ItineraryAdapter.View
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Itinerary itinerary = itineraries.get(position);
-        holder.bind(itinerary);
+        YelpBusiness business = businesses.get(position);
+        holder.bind(business);
     }
 
     @Override
     public int getItemCount() {
-        return itineraries.size();
+        return businesses.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -75,29 +73,29 @@ public class ItineraryAdapter extends RecyclerView.Adapter<ItineraryAdapter.View
             tvCategories = itemView.findViewById(R.id.tvCategories);
         }
 
-        public void bind(Itinerary itinerary) {
-            tvAttractionName.setText(itinerary.getBusinessName());
+        public void bind(YelpBusiness business) {
+            tvAttractionName.setText(business.getName());
 
             String address = "";
-            if (itinerary.getBusinessAddress() != null) {
-                for (String addressLine : itinerary.getBusinessAddress()) {
+            if (business.getAddress() != null) {
+                for (String addressLine : business.getAddress()) {
                     address += addressLine;
                 }
                 tvAddress.setText(address);
             }
 
-            tvDistance.setText("" + itinerary.getBusinessDistanceAway());
-            tvRating.setText("" + itinerary.getBusinessRating());
+            tvDistance.setText("" + business.getDistanceAway());
+            tvRating.setText("" + business.getRating());
 
             String categories = "";
-            for (YelpCategory category : itinerary.getBusinessCategories()) {
+            for (YelpCategory category : business.getCategories()) {
                 categories += category.getTitle() + ", ";
             }
             tvCategories.setText(categories);
 
-            if (itinerary.getBusinessImageUrl() != null) {
+            if (business.getImageUrl() != null) {
                 final int RADIUS = 75;
-                Glide.with(context).load(itinerary.getBusinessImageUrl()).apply(new RequestOptions().centerCrop().transform(new RoundedCorners(RADIUS))).into(ivAttractionImage);
+                Glide.with(context).load(business.getImageUrl()).apply(new RequestOptions().centerCrop().transform(new RoundedCorners(RADIUS))).into(ivAttractionImage);
                 ivAttractionImage.setVisibility(View.VISIBLE);
             } else {
                 ivAttractionImage.setVisibility(View.GONE);

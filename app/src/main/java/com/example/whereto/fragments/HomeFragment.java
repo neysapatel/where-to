@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -14,7 +15,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.whereto.Constants;
 import com.example.whereto.R;
-import com.example.whereto.models.ItineraryAdapter;
+import com.example.whereto.models.BusinessAdapter;
+import com.example.whereto.models.Itinerary;
 import com.example.whereto.models.SharedViewModel;
 import com.example.whereto.models.UserPreferences;
 import com.example.whereto.models.YelpBusiness;
@@ -22,11 +24,15 @@ import com.example.whereto.models.YelpCategory;
 import com.example.whereto.models.YelpEvent;
 import com.example.whereto.models.YelpService;
 import com.example.whereto.models.YelpServiceInterface;
+import com.parse.ParseFile;
+import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.text.ParseException;
@@ -46,7 +52,7 @@ public class HomeFragment extends Fragment {
     UserPreferences userPreferences;
     HashMap<String, List<YelpCategory>> allBusinessCategories = new HashMap<>();
     private SharedViewModel model;
-    ItineraryAdapter adapter;
+    BusinessAdapter adapter;
     RecyclerView rvItinerary;
 
     public HomeFragment() {
@@ -73,7 +79,7 @@ public class HomeFragment extends Fragment {
         readFromJsonFile();
         getYelpData();
 
-        adapter = new ItineraryAdapter(getContext(), matchedBusinesses);
+        adapter = new BusinessAdapter(getContext(), matchedBusinesses);
         rvItinerary = view.findViewById(R.id.rvItinerary);
         rvItinerary.setLayoutManager(new LinearLayoutManager(getContext()));
         rvItinerary.setAdapter(adapter);
@@ -104,8 +110,16 @@ public class HomeFragment extends Fragment {
             public void onResponse(Call<YelpService> call, Response<YelpService> response) {
                 if (response.body() != null) {
                     for (YelpBusiness business : response.body().getBusinesses()) {
-                        if (userPreferences.matchBusinessPreferences(business, allBusinessCategories) && userPreferences.appropriateDistance(business))
-                            matchedBusinesses.add(business);
+                        if (userPreferences.keepSearching()) break;
+                        try {
+                            if (userPreferences.matchBusinessPreferences(business, allBusinessCategories) && userPreferences.appropriateDistance(business)) {
+                                matchedBusinesses.add(business);
+                                ParseUser currentUser = ParseUser.getCurrentUser();
+                                saveItinerary(currentUser, business);
+                            }
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
                 adapter.addAll(matchedBusinesses);
@@ -127,7 +141,8 @@ public class HomeFragment extends Fragment {
                 if (response.body() != null) {
                     for (YelpEvent event : response.body().getEvents()) {
                         try {
-                            if (userPreferences.matchEventPreferences(event)) matchedEvents.add(event);
+                            if (userPreferences.matchEventPreferences(event))
+                                matchedEvents.add(event);
                         } catch (ParseException e) {
                             e.printStackTrace();
                         }
@@ -139,6 +154,38 @@ public class HomeFragment extends Fragment {
             @Override
             public void onFailure(Call<YelpService> eventsCall, Throwable t) {
                 t.printStackTrace();
+            }
+        });
+    }
+
+    private void saveItinerary(ParseUser currentUser, YelpBusiness business) {
+        Itinerary itinerary = new Itinerary();
+        itinerary.setName(business.getName());
+        itinerary.setImage(new ParseFile(new File(business.getImageUrl())));
+        itinerary.setRating(business.getRating());
+
+        String address = "";
+        if (business.getAddress() != null) {
+            for (String addressLine : business.getAddress()) {
+                address += addressLine;
+            }
+        }
+        itinerary.setAddress(address);
+        itinerary.setDistance(business.getDistanceAway());
+
+        String categories = "";
+        for (YelpCategory category : business.getCategories()) {
+            categories += category.getTitle() + ", ";
+        }
+        itinerary.setCategories(categories);
+        itinerary.setUser(currentUser);
+
+        itinerary.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(com.parse.ParseException e) {
+                if (e != null) {
+                    //Toast.makeText(getContext(), "Error posting", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
