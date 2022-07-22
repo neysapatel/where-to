@@ -16,6 +16,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.whereto.R;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class ItineraryAdapter extends RecyclerView.Adapter<ItineraryAdapter.ViewHolder> {

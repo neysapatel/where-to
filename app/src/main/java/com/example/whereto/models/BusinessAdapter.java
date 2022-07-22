@@ -5,20 +5,27 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.whereto.R;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.Collections;
 import java.util.List;
 
 public class BusinessAdapter extends RecyclerView.Adapter<BusinessAdapter.ViewHolder> {
     Context context;
     List<YelpBusiness> businesses;
     List<YelpEvent> events;
+    boolean doubleClick = false;
 
     public BusinessAdapter(Context context, List<YelpBusiness> businesses) {
         this.context = context;
@@ -51,6 +58,11 @@ public class BusinessAdapter extends RecyclerView.Adapter<BusinessAdapter.ViewHo
     @Override
     public int getItemCount() {
         return businesses.size();
+    }
+
+    public void swapItem(int fromPosition, int toPosition) {
+        Collections.swap(businesses, fromPosition, toPosition);
+        notifyItemMoved(fromPosition, toPosition);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -100,6 +112,40 @@ public class BusinessAdapter extends RecyclerView.Adapter<BusinessAdapter.ViewHo
             } else {
                 ivAttractionImage.setVisibility(View.GONE);
             }
+
+            ivAttractionImage.setOnClickListener(new View.OnClickListener() {
+                Handler handler = new Handler();
+                @Override
+                public void onClick(View v) {
+                    Runnable r = new Runnable() {
+                        @Override
+                        public void run() {
+                            doubleClick = false;
+                        }
+                    };
+
+                    if (doubleClick) {
+                        final int DELAY = 2000;
+                        Animation animation = AnimationUtils.loadAnimation(v.getContext(), R.anim.fade_animation);
+                        ivAttractionImage.startAnimation(animation);
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                int position = getAdapterPosition();
+                                swapItem(0, position);
+                            }
+                        }, DELAY);
+
+                        doubleClick = false;
+                    } else {
+                        doubleClick = true;
+                        handler.postDelayed(r, 500);
+                    }
+
+                }
+
+
+            });
         }
     }
 }

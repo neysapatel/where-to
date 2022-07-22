@@ -1,9 +1,11 @@
 package com.example.whereto.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -14,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.whereto.Constants;
+import com.example.whereto.LoginActivity;
 import com.example.whereto.R;
 import com.example.whereto.models.BusinessAdapter;
 import com.example.whereto.models.Itinerary;
@@ -37,6 +40,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -83,6 +87,17 @@ public class HomeFragment extends Fragment {
         rvItinerary = view.findViewById(R.id.rvItinerary);
         rvItinerary.setLayoutManager(new LinearLayoutManager(getContext()));
         rvItinerary.setAdapter(adapter);
+
+        Button logoutButton = view.findViewById(R.id.logoutButton);
+        logoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ParseUser.logOutInBackground();
+                ParseUser currentUser = ParseUser.getCurrentUser();
+                Intent i = new Intent(getContext(), LoginActivity.class);
+                startActivity(i);
+            }
+        });
     }
 
     @Override
