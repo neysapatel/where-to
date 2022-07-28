@@ -14,12 +14,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.whereto.R;
-import com.example.whereto.models.BusinessAdapter;
 import com.example.whereto.models.Itinerary;
 import com.example.whereto.models.ItineraryAdapter;
 import com.example.whereto.models.SharedViewModel;
 import com.example.whereto.models.UserPreferences;
-import com.example.whereto.models.YelpBusiness;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -29,14 +27,14 @@ import com.parse.ParseUser;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SeeOthersFragment extends Fragment {
+public class ExploreFragment extends Fragment {
     private SharedViewModel model;
     private UserPreferences userPreferences;
     protected ItineraryAdapter adapter;
     protected List<Itinerary> allItineraries = new ArrayList<>();
     RecyclerView rvItinerary;
 
-    public SeeOthersFragment() {
+    public ExploreFragment() {
     }
 
     @Override
@@ -56,7 +54,7 @@ public class SeeOthersFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_others, container, false);
+        return inflater.inflate(R.layout.fragment_explore, container, false);
     }
 
     @Override
