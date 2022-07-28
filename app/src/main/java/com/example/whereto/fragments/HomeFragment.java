@@ -199,7 +199,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void done(com.parse.ParseException e) {
                 if (e != null) {
-                    //Toast.makeText(getContext(), "Error posting", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Error posting", Toast.LENGTH_SHORT).show();
                 }
             }
         });
