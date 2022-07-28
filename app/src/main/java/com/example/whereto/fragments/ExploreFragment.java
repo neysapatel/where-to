@@ -16,9 +16,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.whereto.R;
 import com.example.whereto.models.Itinerary;
 import com.example.whereto.models.ItineraryAdapter;
+import com.example.whereto.models.OthersAdapter;
 import com.example.whereto.models.SharedViewModel;
 import com.example.whereto.models.UserPreferences;
 import com.parse.FindCallback;
+import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseRelation;
@@ -30,9 +32,12 @@ import java.util.List;
 public class ExploreFragment extends Fragment {
     private SharedViewModel model;
     private UserPreferences userPreferences;
-    protected ItineraryAdapter adapter;
+    protected ItineraryAdapter itineraryAdapter;
     protected List<Itinerary> allItineraries = new ArrayList<>();
+    protected OthersAdapter othersAdapter;
+    protected List<ParseUser> allUsers = new ArrayList<>();
     RecyclerView rvItinerary;
+    RecyclerView rvOthers;
 
     public ExploreFragment() {
     }
@@ -61,14 +66,39 @@ public class ExploreFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        displayOthers();
-        adapter = new ItineraryAdapter(getContext(), allItineraries);
+        displayOtherUsers();
+        othersAdapter = new OthersAdapter(getContext(), allUsers);
+        rvOthers = view.findViewById(R.id.rvOthers);
+        rvOthers.setLayoutManager(new LinearLayoutManager(getContext()));
+        rvOthers.setAdapter(othersAdapter);
+
+        displayOtherItineraries();
+        itineraryAdapter = new ItineraryAdapter(getContext(), allItineraries);
         rvItinerary = view.findViewById(R.id.rvItinerary);
         rvItinerary.setLayoutManager(new LinearLayoutManager(getContext()));
-        rvItinerary.setAdapter(adapter);
+        rvItinerary.setAdapter(itineraryAdapter);
     }
 
-    public void displayOthers() {
+    public void displayOtherUsers() {
+        ParseQuery<ParseUser> query = ParseQuery.getQuery(ParseUser.class);
+        query.include("username");
+        query.include("destination");
+        query.include("profile_pic");
+        query.addDescendingOrder("createdAt");
+        query.findInBackground(new FindCallback<ParseUser>() {
+            @Override
+            public void done(List<ParseUser> users, ParseException e) {
+                if (e != null) {
+                    return;
+                }
+
+                othersAdapter.addAll(users);
+                othersAdapter.notifyDataSetChanged();
+            }
+        });
+    }
+
+    public void displayOtherItineraries() {
         ParseRelation<ParseUser> following = ParseUser.getCurrentUser().getRelation("following");
         ParseQuery<ParseUser> followingQuery = following.getQuery();
 
@@ -101,7 +131,7 @@ public class ExploreFragment extends Fragment {
                     @Override
                     public void done(List<Itinerary> itineraries, ParseException e) {
                         allItineraries.addAll(itineraries);
-                        adapter.notifyDataSetChanged();
+                        itineraryAdapter.notifyDataSetChanged();
                     }
                 });
             }
