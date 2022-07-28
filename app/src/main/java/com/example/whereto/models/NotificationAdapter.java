@@ -70,7 +70,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            tvCity = itemView.findViewById(R.id.tvCity);
+            tvCity = itemView.findViewById(R.id.tvDestination);
             tvTemp = itemView.findViewById(R.id.tvTemp);
             tvFeelsLike = itemView.findViewById(R.id.tvFeelsLike);
             tvCondition = itemView.findViewById(R.id.tvCondition);

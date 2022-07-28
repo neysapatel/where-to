@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.action_home:
                         fragment = new HomeFragment();
                         break;
-                    case R.id.action_others:
+                    case R.id.action_explore:
                         fragment = new ExploreFragment();
                         break;
                     case R.id.action_rating:
@@ -51,5 +51,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         bottomNavigationView.setSelectedItemId(R.id.action_plan_trip);
+        bottomNavigationView.setItemIconTintList(null);
     }
 }

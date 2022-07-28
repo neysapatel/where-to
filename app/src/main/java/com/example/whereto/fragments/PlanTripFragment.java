@@ -24,6 +24,7 @@ import com.example.whereto.QuestionsAdapter;
 import com.example.whereto.R;
 import com.example.whereto.models.SharedViewModel;
 import com.example.whereto.models.UserPreferences;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.slider.LabelFormatter;
 import com.google.android.material.slider.Slider;
 import com.google.android.material.textfield.TextInputEditText;
@@ -100,6 +101,8 @@ public class PlanTripFragment extends Fragment {
                 updateViewModel(userPreferences);
 
                 // go to the dashboard/homepage fragment
+                //BottomNavigationView bottomNavigationView = view.findViewById(R.id.bottomNavigation);
+                //bottomNavigationView.getMenu().getItem(R.id.action_home).setChecked(true);
                 Fragment homeFragment = new HomeFragment();
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();

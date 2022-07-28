@@ -1,12 +1,9 @@
 package com.example.whereto.models;
 
 import android.content.Context;
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -15,10 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.whereto.R;
-import com.parse.Parse;
 import com.parse.ParseFile;
 import com.parse.ParseRelation;
 import com.parse.ParseUser;
@@ -81,7 +76,7 @@ public class OthersAdapter extends RecyclerView.Adapter<OthersAdapter.ViewHolder
 
             ivProfilePic = itemView.findViewById(R.id.ivProfilePic);
             tvUsername = itemView.findViewById(R.id.tvName);
-            tvCity = itemView.findViewById(R.id.tvCity);
+            tvCity = itemView.findViewById(R.id.tvDestination);
             followButton = itemView.findViewById(R.id.followButton);
             blockButton = itemView.findViewById(R.id.blockButton);
         }
