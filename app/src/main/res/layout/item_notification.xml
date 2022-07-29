@@ -60,92 +60,48 @@
         tools:src="@tools:sample/avatars" />
 
     <TextView
-        android:id="@+id/textView13"
+        android:id="@+id/tvWind"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/ivIcon"
         android:layout_alignStart="@+id/ivIcon"
         android:layout_marginStart="6dp"
         android:layout_marginTop="28dp"
-        android:text="wind" />
-
-    <TextView
-        android:id="@+id/tvWind"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/ivIcon"
-        android:layout_marginStart="27dp"
-        android:layout_marginTop="29dp"
-        android:layout_toEndOf="@+id/textView13"
-        android:text="10 mph NE" />
-
-    <TextView
-        android:id="@+id/textView15"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textView13"
-        android:layout_alignStart="@+id/textView13"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="20dp"
-        android:text="precipitation" />
+        android:text="wind: 10 mph NE" />
 
     <TextView
         android:id="@+id/tvPercipitation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvWind"
-        android:layout_marginStart="19dp"
+        android:layout_alignStart="@+id/tvWind"
+        android:layout_marginStart="0dp"
         android:layout_marginTop="20dp"
-        android:layout_toEndOf="@+id/textView15"
-        android:text="5 in" />
+        android:text="precipitation: 5 in" />
 
     <TextView
-        android:id="@+id/textView17"
-        android:layout_width="wrap_content"
+        android:id="@+id/tvUv"
+        android:layout_width="74dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvCondition"
         android:layout_alignParentEnd="true"
         android:layout_marginStart="88dp"
         android:layout_marginTop="36dp"
-        android:layout_marginEnd="139dp"
+        android:layout_marginEnd="83dp"
         android:layout_toEndOf="@+id/tvWind"
-        android:text="UV" />
-
-    <TextView
-        android:id="@+id/textView18"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tvCondition"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="-125dp"
-        android:layout_marginTop="35dp"
-        android:layout_marginEnd="108dp"
-        android:layout_toEndOf="@+id/textView17"
-        android:text="0" />
-
-    <TextView
-        android:id="@+id/textView19"
-        android:layout_width="63dp"
-        android:layout_height="21dp"
-        android:layout_below="@+id/textView17"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="75dp"
-        android:layout_marginTop="23dp"
-        android:layout_marginEnd="116dp"
-        android:layout_marginBottom="10dp"
-        android:layout_toEndOf="@+id/tvPercipitation"
-        android:text="humidity" />
+        android:text="UV: 0" />
 
     <TextView
         android:id="@+id/tvHumidity"
-        android:layout_width="28dp"
+        android:layout_width="97dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textView18"
+        android:layout_below="@+id/tvUv"
         android:layout_alignParentEnd="true"
-        android:layout_marginStart="-109dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="58dp"
-        android:layout_toEndOf="@+id/textView19"
-        android:text="43" />
+        android:layout_marginStart="84dp"
+        android:layout_marginTop="23dp"
+        android:layout_marginEnd="82dp"
+        android:layout_marginBottom="10dp"
+        android:layout_toEndOf="@+id/tvPercipitation"
+        android:text="humidity: 43" />
 
 </RelativeLayout>

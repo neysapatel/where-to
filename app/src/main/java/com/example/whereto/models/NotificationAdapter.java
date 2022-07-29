@@ -76,7 +76,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
             tvCondition = itemView.findViewById(R.id.tvCondition);
             ivIcon = itemView.findViewById(R.id.ivIcon);
             tvWind = itemView.findViewById(R.id.tvWind);
-            tvUv = itemView.findViewById(R.id.tvWind);
+            tvUv = itemView.findViewById(R.id.tvUv);
             tvPrecipitation = itemView.findViewById(R.id.tvPercipitation);
             tvHumidity = itemView.findViewById(R.id.tvHumidity);
         }
@@ -84,12 +84,12 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         public void bind(WeatherNotification notification) {
             tvCity.setText(notification.getCity());
             tvTemp.setText("" + notification.getTemp());
-            tvFeelsLike.setText("" + notification.getFeelsLike());
+            tvFeelsLike.setText("feels like: " + notification.getFeelsLike());
             tvCondition.setText("" + notification.getCondition());
-            tvWind.setText("" + notification.getWind());
-            tvUv.setText("" + notification.getUv());
-            tvPrecipitation.setText("" + notification.getPrecipitation());
-            tvHumidity.setText("" + notification.getHumidity());
+            tvWind.setText("wind: " + notification.getWind());
+            tvUv.setText("uv: " + notification.getUv());
+            tvPrecipitation.setText("precipitation: " + notification.getPrecipitation());
+            tvHumidity.setText("humidity: " + notification.getHumidity());
 
             if (notification.getIcon() != null) {
                 final int RADIUS = 75;

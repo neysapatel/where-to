@@ -41,22 +41,23 @@
 
     <Button
         android:id="@+id/followButton"
-        android:layout_width="95dp"
+        android:layout_width="100dp"
         android:layout_height="36dp"
-        android:layout_marginStart="84dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginTop="16dp"
         android:text="follow"
-        app:layout_constraintStart_toEndOf="@+id/tvDestination"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tvUsername"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/blockButton"
-        android:layout_width="85dp"
+        android:layout_width="100dp"
         android:layout_height="36dp"
         android:layout_marginEnd="16dp"
         android:text="block"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/followButton"
-        tools:layout_editor_absoluteY="32dp" />
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/followButton"
+        app:layout_constraintTop_toBottomOf="@+id/followButton" />
 </androidx.constraintlayout.widget.ConstraintLayout>

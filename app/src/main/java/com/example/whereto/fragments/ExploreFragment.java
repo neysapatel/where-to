@@ -14,6 +14,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.whereto.R;
+import com.example.whereto.models.ExploreItinerary;
+import com.example.whereto.models.ExploreItineraryAdapter;
 import com.example.whereto.models.Itinerary;
 import com.example.whereto.models.ItineraryAdapter;
 import com.example.whereto.models.OthersAdapter;
@@ -32,8 +34,8 @@ import java.util.List;
 public class ExploreFragment extends Fragment {
     private SharedViewModel model;
     private UserPreferences userPreferences;
-    protected ItineraryAdapter itineraryAdapter;
-    protected List<Itinerary> allItineraries = new ArrayList<>();
+    protected ExploreItineraryAdapter itineraryAdapter;
+    protected List<ExploreItinerary> allItineraries = new ArrayList<>();
     protected OthersAdapter othersAdapter;
     protected List<ParseUser> allUsers = new ArrayList<>();
     RecyclerView rvItinerary;
@@ -127,9 +129,9 @@ public class ExploreFragment extends Fragment {
                     });
                 }
 
-                query.findInBackground(new FindCallback<Itinerary>() {
+                query.findInBackground(new FindCallback<ExploreItinerary>() {
                     @Override
-                    public void done(List<Itinerary> itineraries, ParseException e) {
+                    public void done(List<ExploreItinerary> itineraries, ParseException e) {
                         allItineraries.addAll(itineraries);
                         itineraryAdapter.notifyDataSetChanged();
                     }

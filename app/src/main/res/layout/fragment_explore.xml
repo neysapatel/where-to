@@ -12,15 +12,17 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginStart="88dp"
-        android:layout_marginTop="21dp"
-        android:text="see what others in your area are upto!" />
+        android:layout_marginStart="78dp"
+        android:layout_marginTop="56dp"
+        android:text="find others in your area"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textStyle="bold" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvItinerary"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/rvOthers"
+        android:layout_below="@+id/textView7"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
@@ -29,12 +31,25 @@
         android:layout_marginEnd="1dp"
         android:layout_marginBottom="0dp" />
 
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rvOthers"
+        android:layout_alignParentStart="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="9dp"
+        android:layout_marginTop="20dp"
+        android:text="see what others in your area are up to!"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textStyle="bold" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvOthers"
-        android:layout_width="409dp"
-        android:layout_height="119dp"
+        android:layout_width="match_parent"
+        android:layout_height="173dp"
         android:layout_below="@+id/textView6"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="2dp"
+        android:layout_marginStart="0dp"
         android:layout_marginTop="2dp" />
 </RelativeLayout>

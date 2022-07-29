@@ -96,8 +96,8 @@ public class BusinessAdapter extends RecyclerView.Adapter<BusinessAdapter.ViewHo
                 tvAddress.setText(address);
             }
 
-            tvDistance.setText("" + business.getDistanceAway());
-            tvRating.setText("" + business.getRating());
+            tvDistance.setText(business.getDistanceAway() + " miles away");
+            tvRating.setText("Rating: " + business.getRating());
 
             String categories = "";
             for (YelpCategory category : business.getCategories()) {
@@ -141,10 +141,7 @@ public class BusinessAdapter extends RecyclerView.Adapter<BusinessAdapter.ViewHo
                         doubleClick = true;
                         handler.postDelayed(r, 500);
                     }
-
                 }
-
-
             });
         }
     }
